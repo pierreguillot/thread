@@ -19,8 +19,15 @@ static size_t increment;
 
 static void test_method()
 {
+#ifdef _WIN32
+    HANDLE hStdout;
+    TCHAR msgBuf[BUF_SIZE];
+    size_t cchStringSize;
+    DWORD dwChars;
+#endif
+    size_t temp;
     thd_mutex_lock(&mutex);
-    size_t temp = increment;
+    temp = increment;
     increment = temp + 1;
 #ifdef _WIN32
     StringCchPrintf(msgBuf, BUF_SIZE, TEXT("test_method\n"));

@@ -26,6 +26,10 @@ typedef void (*thd_thread_method_ptr)(void *);
 
 static DWORD WINAPI internal_method_null(LPVOID arg)
 {
+    HANDLE hStdout;
+    TCHAR msgBuf[BUF_SIZE];
+    size_t cchStringSize;
+    DWORD dwChars;
     StringCchPrintf(msgBuf, BUF_SIZE, TEXT("internal_method_null\n"));
     StringCchLength(msgBuf, BUF_SIZE, &cchStringSize);
     WriteConsole(hStdout, msgBuf, (DWORD)cchStringSize, &dwChars, NULL);
