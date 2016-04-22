@@ -49,19 +49,19 @@ void thd_thread_launch(thd_thread* thread, thd_thread_method method, void* data)
     if(data)
     {
         printf("call \n");
-        thread = CreateThread(NULL, 0, internal_method_ptr, params, 0, NULL);
+        *thread = CreateThread(NULL, 0, internal_method_ptr, params, 0, NULL);
     }
     else
     {
         printf("call \n");
-        thread = CreateThread(NULL, 0, internal_method_null, params, 0, NULL);
+        *thread = CreateThread(NULL, 0, internal_method_null, params, 0, NULL);
     }
 }
 
 void thd_thread_join(thd_thread* thread)
 {
-    WaitForSingleObject(thread, INFINITE);
-    CloseHandle(thread);
+    WaitForSingleObject(*thread, INFINITE);
+    CloseHandle(*thread);
 }
 
 void thd_mutex_init(thd_mutex* mutex)
