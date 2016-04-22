@@ -9,10 +9,8 @@
 
 #include "thd_def.h"
 
-//! @brief The thread method without any parameter.
+//! @brief The thread method.
 typedef void (*thd_thread_method)();
-//! @brief The thread method with a pointer as parameter.
-typedef void (*thd_thread_method_ptr)(void *);
 
 //! @brief The thread.
 #ifdef _WIN32
