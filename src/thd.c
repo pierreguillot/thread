@@ -12,10 +12,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
-#include <tchar.h>
-#include <strsafe.h>
 
-#define BUF_SIZE 255
 typedef struct _internal_parameters
 {
     thd_thread_method i_method;
@@ -26,18 +23,9 @@ typedef void (*thd_thread_method_ptr)(void *);
 
 static DWORD WINAPI internal_method_null(LPVOID arg)
 {
-    HANDLE hStdout;
-    TCHAR msgBuf[BUF_SIZE];
-    size_t cchStringSize;
-    DWORD dwChars;
-    hStdout = GetStdHandle(STD_OUTPUT_HANDLE);
-    StringCchPrintf(msgBuf, BUF_SIZE, TEXT("internal_method_null\n"));
-    StringCchLength(msgBuf, BUF_SIZE, &cchStringSize);
-    WriteConsole(hStdout, msgBuf, (DWORD)cchStringSize, &dwChars, NULL);
-    
-    printf("internal_method_null\n");
     t_internal_parameters *params = (t_internal_parameters *)arg;
-    params->i_method();
+    printf("internal_method_null\n");
+    (params->i_method)();
     free(params);
     return 0;
 }
@@ -45,6 +33,7 @@ static DWORD WINAPI internal_method_null(LPVOID arg)
 static DWORD WINAPI internal_method_ptr(LPVOID arg)
 {
     t_internal_parameters *params = (t_internal_parameters *)arg;
+    printf("internal_method_ptr\n");
     ((thd_thread_method_ptr)params->i_method)(params->i_data);
     free(params);
     return 0;
@@ -57,12 +46,12 @@ void thd_thread_launch(thd_thread* thread, thd_thread_method method, void* data)
     params->i_data   = data;
     if(data)
     {
-        printf("call internal_method_ptr\n");
+        printf("call \n");
         thread = CreateThread(NULL, 0, internal_method_ptr, params, 0, NULL);
     }
     else
     {
-        printf("call internal_method_null\n");
+        printf("call \n");
         thread = CreateThread(NULL, 0, internal_method_null, params, 0, NULL);
     }
 }
