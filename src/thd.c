@@ -12,6 +12,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
+#include <tchar.h>
+#include <strsafe.h>
+
+#define BUF_SIZE 255
 typedef struct _internal_parameters
 {
     thd_thread_method i_method;
@@ -22,7 +26,10 @@ typedef void (*thd_thread_method_ptr)(void *);
 
 static DWORD WINAPI internal_method_null(LPVOID arg)
 {
-    printf("internal_method_null");
+    StringCchPrintf(msgBuf, BUF_SIZE, TEXT("internal_method_null\n"));
+    StringCchLength(msgBuf, BUF_SIZE, &cchStringSize);
+    WriteConsole(hStdout, msgBuf, (DWORD)cchStringSize, &dwChars, NULL);
+    
     t_internal_parameters *params = (t_internal_parameters *)arg;
     params->i_method();
     free(params);
