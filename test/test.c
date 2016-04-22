@@ -42,6 +42,7 @@ int main(int argc, char** argv)
         {
             thd_thread_join(threads+i);
         }
+        printf("%ui", increment);
         assert(increment == NLOOPS);
     }
     
