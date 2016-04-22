@@ -35,7 +35,7 @@ typedef void (*thd_thread_method)();
 
 //! @brief The thread.
 #ifdef WINDOWS_NATIVE
-typedef HANDLE thd_thread;
+typedef HANDLE  thd_thread;
 #else
 typedef pthread_t thd_thread;
 #endif
