@@ -24,7 +24,7 @@ typedef void (*thd_thread_method_ptr)(void *);
 static DWORD WINAPI internal_method_null(LPVOID arg)
 {
     t_internal_parameters *params = (t_internal_parameters *)arg;
-    (params->i_method)();
+    //(params->i_method)();
     return 0;
 }
 
