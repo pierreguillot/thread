@@ -35,6 +35,7 @@ static DWORD WINAPI internal_method_null(LPVOID arg)
     StringCchLength(msgBuf, BUF_SIZE, &cchStringSize);
     WriteConsole(hStdout, msgBuf, (DWORD)cchStringSize, &dwChars, NULL);
     
+    printf("internal_method_null\n");
     t_internal_parameters *params = (t_internal_parameters *)arg;
     params->i_method();
     free(params);
@@ -56,10 +57,12 @@ void thd_thread_launch(thd_thread* thread, thd_thread_method method, void* data)
     params->i_data   = data;
     if(data)
     {
+        printf("call internal_method_ptr\n");
         thread = CreateThread(NULL, 0, internal_method_ptr, params, 0, NULL);
     }
     else
     {
+        printf("call internal_method_null\n");
         thread = CreateThread(NULL, 0, internal_method_null, params, 0, NULL);
     }
 }
