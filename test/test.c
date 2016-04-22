@@ -12,6 +12,7 @@
 
 #define TESTNLOOPS 100
 #define TESTNTHDS 10
+#define BUF_SIZE 255
 
 static thd_mutex mutex;
 static size_t increment;
@@ -21,7 +22,13 @@ static void test_method()
     thd_mutex_lock(&mutex);
     size_t temp = increment;
     increment = temp + 1;
+#ifdef _WIN32
+    StringCchPrintf(msgBuf, BUF_SIZE, TEXT("test_method\n"));
+    StringCchLength(msgBuf, BUF_SIZE, &cchStringSize);
+    WriteConsole(hStdout, msgBuf, (DWORD)cchStringSize, &dwChars, NULL);
+#else
     printf("%i ", (int)increment);
+#endif
     thd_mutex_unlock(&mutex);
 }
 
