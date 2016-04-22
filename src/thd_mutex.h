@@ -4,8 +4,8 @@
 // WARRANTIES, see the file, "LICENSE.txt," in this distribution.
 */
 
-#ifndef THREAD_MUTEX_H
-#define THREAD_MUTEX_H
+#ifndef THD_MUTEX_H
+#define THD_MUTEX_H
 
 #ifdef _WIN32
 #include <windows.h>
@@ -49,4 +49,4 @@ CPD_EXTERN void thd_mutex_unlock(thd_mutex* mutex);
 //! @brief Deletes a mutex.
 CPD_EXTERN void thd_mutex_delete(thd_mutex* mutex);
 
-#endif // THREAD_MUTEX_H
+#endif // THD_MUTEX_H

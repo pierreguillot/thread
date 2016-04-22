@@ -4,7 +4,7 @@
 // WARRANTIES, see the file, "LICENSE.txt," in this distribution.
 */
 
-#include "../src/thd_mutex.h"
+#include "../src/thd.h"
 #include <string.h>
 #include <stdio.h>
 
