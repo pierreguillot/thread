@@ -33,10 +33,15 @@ static DWORD WINAPI internal_method_null(LPVOID arg)
 
 static DWORD WINAPI internal_method_ptr(LPVOID arg)
 {
-    t_internal_parameters *params = (t_internal_parameters *)arg;
+    CRITICAL_SECTION cs;
+    t_internal_parameters *params;
+    EnterCriticalSection(&cs);
+    params = (t_internal_parameters *)arg;
     printf("internal_method_ptr\n");
     ((thd_thread_method_ptr)params->i_method)(params->i_data);
     free(params);
+    LeaveCriticalSection(&cs);
+    DeleteCriticalSection(&cs);
     return 0;
 }
 
