@@ -12,8 +12,7 @@
 
 
 #define TESTNLOOPS 100
-#define TESTNTHDS 10
-#define BUF_SIZE 255
+#define TESTNTHDS 100
 
 static thd_mutex mutex;
 static size_t increment;
@@ -24,7 +23,6 @@ static void test_method()
     thd_mutex_lock(&mutex);
     temp = increment;
     increment = temp + 1;
-    printf("%i ", (int)increment);
     thd_mutex_unlock(&mutex);
 }
 
@@ -47,8 +45,7 @@ int main(int argc, char** argv)
         {
             thd_thread_join(threads+i);
         }
-        if(increment != TESTNTHDS)
-            printf("error ");
+        assert(increment == TESTNTHDS);
     }
     
     thd_mutex_delete(&mutex);
