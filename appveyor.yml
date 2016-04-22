@@ -18,6 +18,7 @@ test_script:
     - dir
     - cd Debug
     - dir
+    - threadtest.exe
 
 notifications:
 
