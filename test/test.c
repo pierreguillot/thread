@@ -42,8 +42,9 @@ int main(int argc, char** argv)
         {
             thd_thread_join(threads+i);
         }
-        printf("%ui", increment);
-        assert(increment == NLOOPS);
+        printf("%i ", (int)increment);
+        if(increment == NLOOPS)
+            printf("error ");
     }
     
     thd_mutex_delete(&mutex);
