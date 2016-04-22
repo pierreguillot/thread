@@ -1,0 +1,25 @@
+
+environment:
+   matrix:
+      - CONFIGURATION: Debug
+        PLATFORM: Win32
+      - CONFIGURATION: Debug
+        PLATFORM: x64
+
+os: Visual Studio 2015
+
+build_script:
+    - mkdir build
+    - cd build
+    - cmake .. -G "Visual Studio 14 2015"
+    - cmake --build .
+
+test_script:
+    - dir
+    - cd Debug
+    - dir
+
+notifications:
+
+  - provider: Email
+    on_build_status_changed: false
