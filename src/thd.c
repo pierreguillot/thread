@@ -36,25 +36,24 @@ static DWORD WINAPI internal_method_ptr(LPVOID arg)
     t_internal_parameters *params = (t_internal_parameters *)arg;
     printf("start...");
     ((thd_thread_method_ptr)params->i_method)(params->i_data);
-    free(params);
     printf("end\n");
     return 0;
 }
 
 void thd_thread_launch(thd_thread* thread, thd_thread_method method, void* data)
 {
-    t_internal_parameters* params = (t_internal_parameters *)malloc(sizeof(t_internal_parameters));
-    params->i_method = method;
-    params->i_data   = data;
+    t_internal_parameters params;
+    params.i_method = method;
+    params.i_data   = data;
     if(data)
     {
         printf("call \n");
-        *thread = CreateThread(NULL, 0, internal_method_ptr, params, 0, NULL);
+        *thread = CreateThread(NULL, 0, internal_method_ptr, &params, 0, NULL);
     }
     else
     {
         printf("call \n");
-        *thread = CreateThread(NULL, 0, internal_method_null, params, 0, NULL);
+        *thread = CreateThread(NULL, 0, internal_method_null, &params, 0, NULL);
     }
 }
 
