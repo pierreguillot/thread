@@ -10,6 +10,11 @@
 #include <stdlib.h>
 #include <assert.h>
 
+#ifdef _WIN32
+#include <tchar.h>
+#include <strsafe.h>
+#endif
+
 #define TESTNLOOPS 100
 #define TESTNTHDS 10
 #define BUF_SIZE 255
