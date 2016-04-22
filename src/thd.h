@@ -49,7 +49,7 @@ THD_EXTERN void thd_thread_join(thd_thread* thread);
 
 //! @brief The mutex.
 #ifdef _WIN32
-typedef CRITICAL_SECTION thd_mutex;
+typedef HANDLE thd_mutex;
 #else
 typedef pthread_mutex_t thd_mutex;
 #endif
