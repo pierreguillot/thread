@@ -4,11 +4,12 @@ project(thread)
 option(COVERALLS "Build with coveralls" OFF)
 
 set(THREADSOURCES
-${PROJECT_SOURCE_DIR}/src/thd_mutex.c
-${PROJECT_SOURCE_DIR}/src/thd_mutex.h
-${PROJECT_SOURCE_DIR}/src/thd_thread.c
-${PROJECT_SOURCE_DIR}/src/thd_thread.h
-${PROJECT_SOURCE_DIR}/src/thd.h
+	${PROJECT_SOURCE_DIR}/src/thd_def.h
+	${PROJECT_SOURCE_DIR}/src/thd_mutex.c
+	${PROJECT_SOURCE_DIR}/src/thd_mutex.h
+	${PROJECT_SOURCE_DIR}/src/thd_thread.c
+	${PROJECT_SOURCE_DIR}/src/thd_thread.h
+	${PROJECT_SOURCE_DIR}/src/thd.h
 )
 
 set(TESTSOURCES

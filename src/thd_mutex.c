@@ -6,39 +6,49 @@
 
 #include "thd_mutex.h"
 
+#ifdef _WIN32
 
 void thd_mutex_init(thd_mutex* mutex)
 {
-#ifdef _WIN32
     InitializeCriticalSection(mutex);
-#else
-    pthread_mutex_init(mutex, NULL);
-#endif
 }
 
 void thd_mutex_lock(thd_mutex* mutex)
 {
-#ifdef _WIN32
     EnterCriticalSection(mutex);
-#else
-    pthread_mutex_lock(mutex);
-#endif
 }
 
 void thd_mutex_unlock(thd_mutex* mutex)
 {
-#ifdef _WIN32
     LeaveCriticalSection(mutex);
-#else
-    pthread_mutex_unlock(mutex);
-#endif
 }
 
 void thd_mutex_delete(thd_mutex* mutex)
 {
-#ifdef _WIN32
     DeleteCriticalSection(mutex);
-#else
-    pthread_mutex_destroy(mutex);
-#endif
 }
+
+#else
+
+void thd_mutex_init(thd_mutex* mutex)
+{
+    pthread_mutex_init(mutex, NULL);
+}
+
+void thd_mutex_lock(thd_mutex* mutex)
+{
+    pthread_mutex_lock(mutex);
+}
+
+void thd_mutex_unlock(thd_mutex* mutex)
+{
+    pthread_mutex_unlock(mutex);
+}
+
+void thd_mutex_delete(thd_mutex* mutex)
+{
+    pthread_mutex_destroy(mutex);
+}
+
+#endif
+
