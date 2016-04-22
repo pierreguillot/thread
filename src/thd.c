@@ -4,7 +4,7 @@
 // WARRANTIES, see the file, "LICENSE.txt," in this distribution.
 */
 
-#include "thd_thread.h"
+#include "thd.h"
 
 #ifdef _WIN32
 
@@ -51,6 +51,26 @@ void thd_thread_join(thd_thread* thread)
     CloseHandle(thread);
 }
 
+void thd_mutex_init(thd_mutex* mutex)
+{
+    InitializeCriticalSection(mutex);
+}
+
+void thd_mutex_lock(thd_mutex* mutex)
+{
+    EnterCriticalSection(mutex);
+}
+
+void thd_mutex_unlock(thd_mutex* mutex)
+{
+    LeaveCriticalSection(mutex);
+}
+
+void thd_mutex_delete(thd_mutex* mutex)
+{
+    DeleteCriticalSection(mutex);
+}
+
 #else
 
 void thd_thread_launch(thd_thread* thread, thd_thread_method method, void* data)
@@ -65,6 +85,26 @@ void thd_thread_launch(thd_thread* thread, thd_thread_method method, void* data)
 void thd_thread_join(thd_thread* thread)
 {
     pthread_join(*thread, NULL);
+}
+
+void thd_mutex_init(thd_mutex* mutex)
+{
+    pthread_mutex_init(mutex, NULL);
+}
+
+void thd_mutex_lock(thd_mutex* mutex)
+{
+    pthread_mutex_lock(mutex);
+}
+
+void thd_mutex_unlock(thd_mutex* mutex)
+{
+    pthread_mutex_unlock(mutex);
+}
+
+void thd_mutex_delete(thd_mutex* mutex)
+{
+    pthread_mutex_destroy(mutex);
 }
 
 #endif

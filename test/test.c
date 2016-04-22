@@ -7,8 +7,8 @@
 #include "../src/thd.h"
 #include <string.h>
 #include <stdio.h>
-#include<stdlib.h>
-#include<unistd.h>
+#include <stdlib.h>
+#include <unistd.h>
 #include <assert.h>
 
 #define NLOOPS 100
