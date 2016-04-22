@@ -13,26 +13,20 @@
 #include <pthread.h>
 #endif
 
-#ifdef THD_LIB
+#ifdef THD_LIB_EXPORT
 #ifdef _WIN32
-#ifdef PD_INTERNAL
-#define CPD_EXTERN __declspec(dllexport) extern
+#define THD_EXTERN __declspec(dllexport) extern
 #else
-#define CPD_EXTERN __declspec(dllimport) extern
+#define THD_EXTERN extern
+#endif
+#elif THD_LIB_IMPORY
+#ifdef _WIN32
+#define THD_EXTERN __declspec(dllimport) extern
+#else
+#define THD_EXTERN extern
 #endif
 #else
-#define CPD_EXTERN extern
-#endif
-
-#if defined(_MSC_VER) && !defined(_LANGUAGE_C_PLUS_PLUS) && !defined(__cplusplus)
-#define CPD_EXTERN_STRUCT extern struct
-#else
-#define CPD_EXTERN_STRUCT struct
-#endif
-
-#else
-#define CPD_EXTERN
-#define CPD_EXTERN_STRUCT
+#define THD_EXTERN
 #endif
 
 #endif // THD_DEF_H

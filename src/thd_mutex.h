@@ -18,15 +18,15 @@ typedef pthread_mutex_t thd_mutex;
 
 
 //! @brief Initializes a mutex.
-CPD_EXTERN void thd_mutex_init(thd_mutex* mutex);
+THD_EXTERN void thd_mutex_init(thd_mutex* mutex);
 
 //! @brief Locks a mutex.
-CPD_EXTERN void thd_mutex_lock(thd_mutex* mutex);
+THD_EXTERN void thd_mutex_lock(thd_mutex* mutex);
 
 //! @brief Unlocks a mutex.
-CPD_EXTERN void thd_mutex_unlock(thd_mutex* mutex);
+THD_EXTERN void thd_mutex_unlock(thd_mutex* mutex);
 
 //! @brief Deletes a mutex.
-CPD_EXTERN void thd_mutex_delete(thd_mutex* mutex);
+THD_EXTERN void thd_mutex_delete(thd_mutex* mutex);
 
 #endif // THD_MUTEX_H

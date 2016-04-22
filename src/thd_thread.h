@@ -21,9 +21,9 @@ typedef pthread_t thd_thread;
 
 
 //! @brief Lauches a thread.
-CPD_EXTERN void thd_thread_launch(thd_thread* thread, thd_thread_method method, void* data);
+THD_EXTERN void thd_thread_launch(thd_thread* thread, thd_thread_method method, void* data);
 
 //! @brief Joins a thread.
-CPD_EXTERN void thd_thread_join(thd_thread* thread);
+THD_EXTERN void thd_thread_join(thd_thread* thread);
 
 #endif // THD_THREAD_H

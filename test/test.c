@@ -7,6 +7,8 @@
 #include "../src/thd.h"
 #include <string.h>
 #include <stdio.h>
+#include<stdlib.h>
+#include<unistd.h>
 #include <assert.h>
 
 #define NLOOPS 100
@@ -17,28 +19,35 @@ static size_t increment;
 static void test_method()
 {
     thd_mutex_lock(&mutex);
-    increment++;
+    size_t temp = increment;
+    increment = temp + 1;
     thd_mutex_unlock(&mutex);
 }
 
 int main(int argc, char** argv)
 {
-    size_t i;
+    size_t i, j;
     thd_thread threads[NLOOPS];
     printf("test thread...");
     thd_mutex_init(&mutex);
     
-    for(i = 0; i < NLOOPS; i++)
+    for(j = 0; j < NLOOPS; j++)
     {
-        thd_thread_launch(threads+i, (thd_thread_method)test_method, NULL);
+        increment = 0;
+        for(i = 0; i < NLOOPS; i++)
+        {
+            thd_thread_launch(threads+i, (thd_thread_method)test_method, NULL);
+        }
+        
+        for(i = 0; i < NLOOPS; i++)
+        {
+            thd_thread_join(threads+i);
+        }
+        assert(increment == NLOOPS);
     }
     
-    for(i = 0; i < NLOOPS; i++)
-    {
-        thd_thread_join(threads+i);
-    }
     thd_mutex_delete(&mutex);
-    assert(i == NLOOPS);
+    
     printf("ok\n");
     return 0;
 }
