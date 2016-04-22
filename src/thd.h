@@ -7,11 +7,7 @@
 #ifndef THD_H
 #define THD_H
 
-#ifdef _WIN32
-#include <windows.h>
-#else
 #include <pthread.h>
-#endif
 
 #ifdef THD_LIB_EXPORT
 #ifdef WINDOWS_NATIVE
