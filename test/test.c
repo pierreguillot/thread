@@ -107,6 +107,7 @@ int _tmain()
 
 DWORD WINAPI MyThreadFunction( LPVOID lpParam )
 {
+    size_t temp;
     HANDLE hStdout;
     PMYDATA pDataArray;
     
