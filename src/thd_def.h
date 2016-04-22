@@ -13,6 +13,7 @@
 #include <pthread.h>
 #endif
 
+#ifdef THD_LIB
 #ifdef _WIN32
 #ifdef PD_INTERNAL
 #define CPD_EXTERN __declspec(dllexport) extern
@@ -27,6 +28,11 @@
 #define CPD_EXTERN_STRUCT extern struct
 #else
 #define CPD_EXTERN_STRUCT struct
+#endif
+
+#else
+#define CPD_EXTERN
+#define CPD_EXTERN_STRUCT
 #endif
 
 #endif // THD_DEF_H
