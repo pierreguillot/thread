@@ -48,6 +48,7 @@ void thd_thread_launch(thd_thread* thread, thd_thread_method method, void* data)
 void thd_thread_join(thd_thread* thread)
 {
     WaitForSingleObject(thread, INFINITE);
+    CloseHandle(thread);
 }
 
 #else
