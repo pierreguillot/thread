@@ -1,0 +1,49 @@
+language: c
+dist: trusty
+sudo: required
+
+notifications:
+  email: false
+
+git:
+  submodules: true
+  depth: 3
+
+matrix:
+  include:
+    
+    - os: linux
+      compiler: gcc
+      script:
+        - mkdir build && cd build
+        - cmake ..
+        - cmake --build .
+        - cd ../
+        - ./build/threadtest
+
+    - os: linux
+      compiler: clang
+      script:
+        - mkdir build && cd build
+        - cmake ..
+        - cmake --build .
+        - cd ../
+        - ./build/threadtest
+
+    - os: osx
+      compiler: gcc
+      script:
+        - mkdir build && cd build
+        - cmake ..
+        - cmake --build .
+        - cd ../
+        - ./build/threadtest
+
+    - os: osx
+      compiler: clang
+      script:
+        - mkdir build && cd build
+        - cmake ..
+        - cmake --build .
+        - cd ../
+        - ./build/threadtest
