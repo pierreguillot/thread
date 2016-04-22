@@ -16,7 +16,7 @@ struct internal_parameters
 
 static DWORD WINAPI internal_method(LPVOID arg)
 {
-    (internal_parameters *)(arg)->i_method((internal_parameters *)(arg)->i_data);
+    ((internal_parameters *)(arg))->i_method(((internal_parameters *)(arg))->i_data);
     return 0;
 }
 
