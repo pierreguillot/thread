@@ -53,22 +53,22 @@ void thd_thread_join(thd_thread* thread)
 
 void thd_mutex_init(thd_mutex* mutex)
 {
-    mutex = CreateMutex(NULL, FALSE, NULL);
+    InitializeCriticalSection(mutex);
 }
 
 void thd_mutex_lock(thd_mutex* mutex)
 {
-    WaitForSingleObject(mutex, INFINITE);
+    EnterCriticalSection(mutex);
 }
 
 void thd_mutex_unlock(thd_mutex* mutex)
 {
-    ReleaseMutex(mutex);
+    LeaveCriticalSection(mutex);
 }
 
 void thd_mutex_delete(thd_mutex* mutex)
 {
-    CloseHandle(mutex);
+    DeleteCriticalSection(mutex);
 }
 
 #else

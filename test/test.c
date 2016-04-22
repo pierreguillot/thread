@@ -20,6 +20,7 @@ static void test_method()
     thd_mutex_lock(&mutex);
     size_t temp = increment;
     increment = temp + 1;
+    printf("%i ", (int)increment);
     thd_mutex_unlock(&mutex);
 }
 
@@ -42,8 +43,7 @@ int main(int argc, char** argv)
         {
             thd_thread_join(threads+i);
         }
-        printf("%i ", (int)increment);
-        if(increment == NLOOPS)
+        if(increment != NLOOPS)
             printf("error ");
     }
     
