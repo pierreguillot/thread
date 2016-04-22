@@ -34,7 +34,7 @@ static DWORD WINAPI internal_method_ptr(LPVOID arg)
 
 void thd_thread_launch(thd_thread* thread, thd_thread_method method, void* data)
 {
-    t_internal_parameters params* = (t_internal_parameters *)malloc(sizeof(t_internal_parameters));
+    t_internal_parameters* params = (t_internal_parameters *)malloc(sizeof(t_internal_parameters));
     params->i_method = method;
     params->i_data   = data;
     if(data)
