@@ -12,7 +12,7 @@
 
 
 #define TESTNLOOPS 100
-#define TESTNTHDS 100
+#define TESTNTHDS 10
 
 static thd_mutex mutex;
 static size_t increment;
