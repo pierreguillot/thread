@@ -8,6 +8,10 @@
 
 #ifdef _WIN32
 
+#include <string.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <assert.h>
 typedef struct _internal_parameters
 {
     thd_thread_method i_method;
@@ -18,6 +22,7 @@ typedef void (*thd_thread_method_ptr)(void *);
 
 static DWORD WINAPI internal_method_null(LPVOID arg)
 {
+    printf("internal_method_null");
     t_internal_parameters *params = (t_internal_parameters *)arg;
     params->i_method();
     free(params);
@@ -39,11 +44,11 @@ void thd_thread_launch(thd_thread* thread, thd_thread_method method, void* data)
     params->i_data   = data;
     if(data)
     {
-        thread = CreateThread(NULL, 0, internal_method_ptr, &params, 0, NULL);
+        thread = CreateThread(NULL, 0, internal_method_ptr, params, 0, NULL);
     }
     else
     {
-        thread = CreateThread(NULL, 0, internal_method_null, &params, 0, NULL);
+        thread = CreateThread(NULL, 0, internal_method_null, params, 0, NULL);
     }
 }
 
