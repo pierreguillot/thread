@@ -23,6 +23,7 @@ static void test_method()
     thd_mutex_lock(&mutex);
     temp = increment;
     increment = temp + 1;
+    printf("%i ", (int)increment);
     thd_mutex_unlock(&mutex);
 }
 
