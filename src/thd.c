@@ -30,6 +30,7 @@ static DWORD WINAPI internal_method_null(LPVOID arg)
     TCHAR msgBuf[BUF_SIZE];
     size_t cchStringSize;
     DWORD dwChars;
+    hStdout = GetStdHandle(STD_OUTPUT_HANDLE);
     StringCchPrintf(msgBuf, BUF_SIZE, TEXT("internal_method_null\n"));
     StringCchLength(msgBuf, BUF_SIZE, &cchStringSize);
     WriteConsole(hStdout, msgBuf, (DWORD)cchStringSize, &dwChars, NULL);

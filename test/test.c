@@ -35,6 +35,7 @@ static void test_method()
     temp = increment;
     increment = temp + 1;
 #ifdef _WIN32
+    hStdout = GetStdHandle(STD_OUTPUT_HANDLE);
     StringCchPrintf(msgBuf, BUF_SIZE, TEXT("test_method\n"));
     StringCchLength(msgBuf, BUF_SIZE, &cchStringSize);
     WriteConsole(hStdout, msgBuf, (DWORD)cchStringSize, &dwChars, NULL);
