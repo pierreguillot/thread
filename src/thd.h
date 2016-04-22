@@ -14,13 +14,13 @@
 #endif
 
 #ifdef THD_LIB_EXPORT
-#ifdef _WIN32
+#ifdef WINDOWS_NATIVE
 #define THD_EXTERN __declspec(dllexport) extern
 #else
 #define THD_EXTERN extern
 #endif
 #elif THD_LIB_IMPORY
-#ifdef _WIN32
+#ifdef WINDOWS_NATIVE
 #define THD_EXTERN __declspec(dllimport) extern
 #else
 #define THD_EXTERN extern
@@ -33,7 +33,7 @@
 typedef void (*thd_thread_method)();
 
 //! @brief The thread.
-#ifdef _WIN32
+#ifdef WINDOWS_NATIVE
 typedef HANDLE thd_thread;
 #else
 typedef pthread_t thd_thread;
@@ -48,7 +48,7 @@ THD_EXTERN void thd_thread_join(thd_thread* thread);
 
 
 //! @brief The mutex.
-#ifdef _WIN32
+#ifdef WINDOWS_NATIVE
 typedef CRITICAL_SECTION thd_mutex;
 #else
 typedef pthread_mutex_t thd_mutex;
