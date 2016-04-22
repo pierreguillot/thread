@@ -17,6 +17,8 @@
 
 #define MAX_THREADS 3
 #define BUF_SIZE 255
+static size_t increment;
+static thd_mutex mutex;
 
 DWORD WINAPI MyThreadFunction( LPVOID lpParam );
 void ErrorHandler(LPTSTR lpszFunction);
@@ -96,6 +98,9 @@ int _tmain()
         }
     }
     
+    if(increment != MAX_THREADS)
+        printf("error ");
+    
     return 0;
 }
 
@@ -114,7 +119,10 @@ DWORD WINAPI MyThreadFunction( LPVOID lpParam )
     hStdout = GetStdHandle(STD_OUTPUT_HANDLE);
     if( hStdout == INVALID_HANDLE_VALUE )
         return 1;
-    
+    thd_mutex_lock(&mutex);
+    temp = increment;
+    increment = temp + 1;
+    thd_mutex_unlock(&mutex);
     // Cast the parameter to the correct data type.
     // The pointer is known to be valid because
     // it was checked for NULL before the thread was created.
