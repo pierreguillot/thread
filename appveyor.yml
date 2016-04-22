@@ -15,7 +15,8 @@ build_script:
     - cmake --build .
 
 test_script:
-    - Debug/threadtest.exe
+    - cd Debug
+    - threadtest.exe
 
 notifications:
 
