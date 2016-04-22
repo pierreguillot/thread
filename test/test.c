@@ -10,7 +10,8 @@
 #include <stdlib.h>
 #include <assert.h>
 
-#define NLOOPS 100
+#define TESTNLOOPS 100
+#define TESTNTHDS 10
 
 static thd_mutex mutex;
 static size_t increment;
@@ -27,23 +28,23 @@ static void test_method()
 int main(int argc, char** argv)
 {
     size_t i, j;
-    thd_thread threads[NLOOPS];
+    thd_thread threads[TESTNTHDS];
     printf("test thread...");
     thd_mutex_init(&mutex);
     
-    for(j = 0; j < NLOOPS; j++)
+    for(j = 0; j < TESTNLOOPS; j++)
     {
         increment = 0;
-        for(i = 0; i < NLOOPS; i++)
+        for(i = 0; i < TESTNTHDS; i++)
         {
             thd_thread_launch(threads+i, (thd_thread_method)test_method, NULL);
         }
         
-        for(i = 0; i < NLOOPS; i++)
+        for(i = 0; i < TESTNTHDS; i++)
         {
             thd_thread_join(threads+i);
         }
-        if(increment != NLOOPS)
+        if(increment != TESTNTHDS)
             printf("error ");
     }
     
