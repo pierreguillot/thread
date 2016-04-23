@@ -81,8 +81,6 @@ typedef struct _data
     thd_condition   condwrite;      //!< The condition.
     thd_condition   condread;       //!< The condition.
     char            occupied;       //!< The state.
-    unsigned char   nextin;
-    unsigned char   nextout;
     char            buffer[BUFSIZE];//!< The buffer.
 }t_data;
 
@@ -164,6 +162,12 @@ int main(int argc, char** argv)
     data.occupied = 0;
     printf("test thread... ");
 
+    //! Initializes the mutex of the data structure
+    thd_mutex_init(&data.mutex);
+    //! Initializes the conditions of the data structure
+    thd_condition_init(&data.condread);
+    thd_condition_init(&data.condwrite);
+
     for(j = 0; j < NLOOPS; j++)
     {
         //! Fill the data's buffer with 0
@@ -171,12 +175,6 @@ int main(int argc, char** argv)
         {
             data.buffer[i] = 0;
         }
-
-        //! Initializes the mutex of the data structure
-        thd_mutex_init(&data.mutex);
-        //! Initializes the conditions of the data structure
-        thd_condition_init(&data.condread);
-        thd_condition_init(&data.condwrite);
 
         //! Detaches all the threads
         for(i = 0; i < NCONSUMER; i++)
