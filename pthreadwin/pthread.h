@@ -9,10 +9,10 @@
 
 #include "../src/thd.h"
 
-#define pthread_mutex_t thd_mutex;
-#define pthread_cond_t thd_condition;
-#define pthread_t thd_thread;
-#define pthread_attr_t int;
+#define pthread_mutex_t thd_mutex
+#define pthread_cond_t thd_condition
+#define pthread_t thd_thread
+#define pthread_attr_t int
 #define PTHREAD_CREATE_JOINABLE 1
 #define PTHREAD_CREATE_DETACHED 2
 
