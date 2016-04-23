@@ -6,7 +6,7 @@
 
 #include "thd.h"
 
-#ifdef WINDOWS_NATIVE
+#ifdef THD_WINDOWS_NATIVE
 
 #include <string.h>
 #include <stdio.h>
