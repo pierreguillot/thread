@@ -17,10 +17,15 @@ source_group(test FILES ${TESTSOURCES})
 include_directories(${PROJECT_SOURCE_DIR}/test)
 include_directories(${PROJECT_SOURCE_DIR}/src)
 
-ENABLE_TESTING()
 find_package(Threads REQUIRED)
 set(CMAKE_MACOSX_RPATH On)
 set(CMAKE_OSX_DEPLOYMENT_TARGET 10.7)
+
+if(${COVERALLS})
+ENABLE_TESTING()
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fprofile-arcs -ftest-coverage")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fprofile-arcs -ftest-coverage")
+endif()
 
 add_executable(threadtest ${TESTSOURCES} ${THREADSOURCES})
 target_link_libraries(threadtest ${CMAKE_THREAD_LIBS_INIT})
