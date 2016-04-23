@@ -15,6 +15,7 @@
 #define pthread_attr_t int
 #define PTHREAD_CREATE_JOINABLE 1
 #define PTHREAD_CREATE_DETACHED 2
+#define PTHREAD_MUTEX_INITIALIZER
 
 #define pthread_attr_init(attr) *attr=0
 #define pthread_attr_setdetachstate(attr, flag) *attr=flag

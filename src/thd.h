@@ -50,7 +50,7 @@ typedef pthread_t thd_thread;
 THD_EXTERN void thd_thread_detach(thd_thread* thread, thd_thread_method method, void* data);
 
 //! @brief Joins a thread.
-THD_EXTERN void thd_thread_join(thd_thread* thread);
+THD_EXTERN int thd_thread_join(thd_thread* thread);
 
 
 

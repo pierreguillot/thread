@@ -39,6 +39,7 @@ void thd_thread_join(thd_thread* thread)
 {
     WaitForSingleObject(*thread, INFINITE);
     CloseHandle(*thread);
+    return 0;
 }
 
 void thd_mutex_init(thd_mutex* mutex)
@@ -92,9 +93,9 @@ void thd_thread_detach(thd_thread* thread, thd_thread_method method, void* data)
     pthread_attr_destroy(&attributes);
 }
 
-void thd_thread_join(thd_thread* thread)
+int thd_thread_join(thd_thread* thread)
 {
-    pthread_join(*thread, NULL);
+    return pthread_join(*thread, NULL);
 }
 
 void thd_mutex_init(thd_mutex* mutex)
