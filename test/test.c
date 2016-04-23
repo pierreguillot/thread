@@ -41,7 +41,7 @@ int main(int argc, char** argv)
         data.increment = 0;
         for(i = 0; i < TESTNTHDS; i++)
         {
-            thd_thread_launch(threads+i, (thd_thread_method)test_call, &data);
+            thd_thread_detach(threads+i, (thd_thread_method)test_call, &data);
         }
         
         for(i = 0; i < TESTNTHDS; i++)

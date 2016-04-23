@@ -27,7 +27,7 @@ static DWORD WINAPI internal_method_ptr(LPVOID arg)
     return 0;
 }
 
-void thd_thread_launch(thd_thread* thread, thd_thread_method method, void* data)
+void thd_thread_detach(thd_thread* thread, thd_thread_method method, void* data)
 {
     t_internal_parameters* params = (t_internal_parameters *)malloc(sizeof(t_internal_parameters));
     params->i_method = method;
@@ -63,7 +63,7 @@ void thd_mutex_delete(thd_mutex* mutex)
 
 #else
 
-void thd_thread_launch(thd_thread* thread, thd_thread_method method, void* data)
+void thd_thread_detach(thd_thread* thread, thd_thread_method method, void* data)
 {
     pthread_attr_t attributes;
     pthread_attr_init(&attributes);

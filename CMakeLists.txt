@@ -22,8 +22,8 @@ find_package(Threads REQUIRED)
 set(CMAKE_MACOSX_RPATH On)
 set(CMAKE_OSX_DEPLOYMENT_TARGET 10.7)
 
-add_executable(threadtest ${TESTSOURCES} ${THREADSOURCES})
-target_link_libraries(threadtest ${CMAKE_THREAD_LIBS_INIT})
+add_executable(test ${TESTSOURCES} ${THREADSOURCES})
+target_link_libraries(test ${CMAKE_THREAD_LIBS_INIT})
 
 add_library(threadshared SHARED ${THREADSOURCES})
 target_link_libraries(threadshared ${CMAKE_THREAD_LIBS_INIT})

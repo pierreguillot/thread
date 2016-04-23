@@ -16,7 +16,7 @@ build_script:
 
 test_script:
     - cd Debug
-    - threadtest.exe
+    - test.exe
 
 notifications:
 

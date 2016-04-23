@@ -41,8 +41,8 @@ typedef pthread_t thd_thread;
 #endif
 
 
-//! @brief Lauches a thread.
-THD_EXTERN void thd_thread_launch(thd_thread* thread, thd_thread_method method, void* data);
+//! @brief Detaches a thread.
+THD_EXTERN void thd_thread_detach(thd_thread* thread, thd_thread_method method, void* data);
 
 //! @brief Joins a thread.
 THD_EXTERN void thd_thread_join(thd_thread* thread);
