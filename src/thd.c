@@ -56,9 +56,29 @@ void thd_mutex_unlock(thd_mutex* mutex)
     LeaveCriticalSection(mutex);
 }
 
-void thd_mutex_delete(thd_mutex* mutex)
+void thd_mutex_destroy(thd_mutex* mutex)
 {
     DeleteCriticalSection(mutex);
+}
+
+void thd_condition_init(thd_condition* cond)
+{
+    InitializeConditionVariable(cond);
+}
+
+void thd_condition_signal(thd_condition* cond)
+{
+    WakeConditionVariable(cond);
+}
+
+void thd_condition_wait(thd_condition* cond, thd_mutex* mutex)
+{
+    SleepConditionVariableCS(cond, mutex, INFINITE);
+}
+
+void thd_condition_destroy(thd_condition* cond)
+{
+    ;
 }
 
 #else
@@ -92,9 +112,29 @@ void thd_mutex_unlock(thd_mutex* mutex)
     pthread_mutex_unlock(mutex);
 }
 
-void thd_mutex_delete(thd_mutex* mutex)
+void thd_mutex_destroy(thd_mutex* mutex)
 {
     pthread_mutex_destroy(mutex);
+}
+
+void thd_condition_init(thd_condition* cond)
+{
+    pthread_cond_init(cond, NULL);
+}
+
+void thd_condition_signal(thd_condition* cond)
+{
+    pthread_cond_signal(cond);
+}
+
+void thd_condition_wait(thd_condition* cond, thd_mutex* mutex)
+{
+    pthread_cond_wait(cond, mutex);
+}
+
+void thd_condition_destroy(thd_condition* cond)
+{
+    pthread_cond_destroy(cond);
 }
 
 #endif

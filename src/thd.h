@@ -30,6 +30,11 @@
 #define THD_EXTERN
 #endif
 
+
+
+
+
+
 //! @brief The thread method.
 typedef void (*thd_thread_method)(void *);
 
@@ -46,6 +51,11 @@ THD_EXTERN void thd_thread_detach(thd_thread* thread, thd_thread_method method, 
 
 //! @brief Joins a thread.
 THD_EXTERN void thd_thread_join(thd_thread* thread);
+
+
+
+
+
 
 
 //! @brief The mutex.
@@ -65,8 +75,34 @@ THD_EXTERN void thd_mutex_lock(thd_mutex* mutex);
 //! @brief Unlocks a mutex.
 THD_EXTERN void thd_mutex_unlock(thd_mutex* mutex);
 
-//! @brief Deletes a mutex.
-THD_EXTERN void thd_mutex_delete(thd_mutex* mutex);
+//! @brief Destroy a mutex.
+THD_EXTERN void thd_mutex_destroy(thd_mutex* mutex);
+
+
+
+
+
+//! @brief The condition.
+#ifdef WINDOWS_NATIVE
+typedef CONDITION_VARIABLE thd_condition;
+#else
+typedef pthread_cond_t thd_condition;
+#endif
+
+
+//! @brief Initializes a condition.
+THD_EXTERN void thd_condition_init(thd_condition* cond);
+
+//! @brief Restarts one of the threads that are waiting on the condition.
+THD_EXTERN void thd_condition_signal(thd_condition* cond);
+
+//! @brief Unlocks the mutex and waits for the condition to be signalled.
+THD_EXTERN void thd_condition_wait(thd_condition* cond, thd_mutex* mutex);
+
+//! @brief Destroy a condition.
+THD_EXTERN void thd_condition_destroy(thd_condition* cond);
+
+
 
 
 #endif // THD_H

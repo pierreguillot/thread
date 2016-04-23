@@ -72,7 +72,7 @@ int main(int argc, char** argv)
         assert(data.inc2 == TESTNTHDS * 100);
     }
     //! Deletes the mutex of the data structure
-    thd_mutex_delete(&data.mutex);
+    thd_mutex_destroy(&data.mutex);
     
     printf("ok\n");
     return 0;

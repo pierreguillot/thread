@@ -33,8 +33,21 @@ void thd_mutex_lock(thd_mutex* mutex);
  * Unlocks a mutex:  
 void thd_mutex_unlock(thd_mutex* mutex);
 
- * Deletes a mutex:  
-void thd_mutex_delete(thd_mutex* mutex);
+ * Destroy a mutex:  
+void thd_mutex_destroy(thd_mutex* mutex);
+
+* Condition
+ * Initializes a condition:  
+void thd_condition_init(thd_condition* cond);
+
+ * Restarts one of the threads that are waiting on the condition:  
+void thd_condition_signal(thd_condition* cond);
+
+ * Unlocks the mutex and waits for the condition to be signalled:  
+void thd_condition_wait(thd_condition* cond, thd_mutex* mutex);
+
+ * Destroy a condition:
+void thd_condition_destroy(thd_condition* cond);
 
 #### Example
 ```c
@@ -105,8 +118,8 @@ int main(int argc, char** argv)
         assert(data.inc1 == TESTNTHDS);
         assert(data.inc2 == TESTNTHDS * 100);
     }
-    //! Deletes the mutex of the data structure
-    thd_mutex_delete(&data.mutex);
+    //! Destroy the mutex of the data structure
+    thd_mutex_destroy(&data.mutex);
 
     printf("ok\n");
     return 0;
