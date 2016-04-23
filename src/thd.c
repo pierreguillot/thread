@@ -22,7 +22,7 @@ typedef struct _internal_parameters
 static DWORD WINAPI internal_method_ptr(LPVOID arg)
 {
     t_internal_parameters *params = (t_internal_parameters *)arg;
-    ((thd_thread_method_ptr)params->i_method)(params->i_data);
+    params->i_method(params->i_data);
     free(params);
     return 0;
 }
