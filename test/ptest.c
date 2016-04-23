@@ -14,6 +14,7 @@
 #define BUFSIZE 128
 #define NCONSUMER 5
 #define NLOOPS 10
+#define VERBOSE_TEST 1
 
 static void verbose_printf(char const* buf)
 {
