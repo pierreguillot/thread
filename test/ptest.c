@@ -124,6 +124,12 @@ int main(int argc, char** argv)
     data.occupied = 0;
     printf("test thread... ");
     
+    //! Initializes the mutex of the data structure
+    pthread_mutex_init(&data.mutex, NULL);
+    //! Initializes the conditions of the data structure
+    pthread_cond_init(&data.condread, NULL);
+    pthread_cond_init(&data.condwrite, NULL);
+    
     for(j = 0; j < NLOOPS; j++)
     {
         //! Fill the data's buffer with 0
@@ -131,13 +137,6 @@ int main(int argc, char** argv)
         {
             data.buffer[i] = 0;
         }
-        
-        //! Initializes the mutex of the data structure
-        pthread_mutex_init(&data.mutex, NULL);
-        //! Initializes the conditions of the data structure
-        pthread_cond_init(&data.condread, NULL);
-        pthread_cond_init(&data.condwrite, NULL);
-        
         //! Detaches all the threads
         for(i = 0; i < NCONSUMER; i++)
         {
