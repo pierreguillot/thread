@@ -82,7 +82,7 @@ static void func_consumer(t_data* t)
     //! Write to the buffer.
     for(i = 0; i < BUFSIZE; i++)
     {
-        assert(t->buffer[i] == i);
+        assert(t->buffer[i] == (char)i);
     }
     t->occupied--;
     verbose_printf("func_consumer signal\n");

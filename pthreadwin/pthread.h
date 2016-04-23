@@ -30,7 +30,7 @@
 
 #define pthread_cond_init(cond, attr) thd_condition_init(cond)
 #define pthread_cond_signal(cond) thd_condition_signal(cond)
-#define pthread_cond_wait(cond) thd_condition_wait(cond)
+#define pthread_cond_wait(cond, mutex) thd_condition_wait(cond, mutex)
 #define pthread_cond_destroy(cond) thd_condition_destroy(cond)
 
 

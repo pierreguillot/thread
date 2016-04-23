@@ -53,7 +53,7 @@ static void func_producer(t_data* t)
     //! Write to the buffer.
     for(i = 0; i < BUFSIZE; i++)
     {
-        t->buffer[i] = i;
+        t->buffer[i] = (char)i;
     }
     t->occupied = NCONSUMER;
     //! Signal that the buffer can be read
