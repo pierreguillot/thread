@@ -15,13 +15,13 @@
 #define pthread_attr_t int
 #define PTHREAD_CREATE_JOINABLE 1
 #define PTHREAD_CREATE_DETACHED 2
-#define PTHREAD_MUTEX_INITIALIZER
+#define PTHREAD_MUTEX_INITIALIZER NULL
 
 #define pthread_attr_init(attr) *attr=0
 #define pthread_attr_setdetachstate(attr, flag) *attr=flag
 #define pthread_create(t, attr, m, data) thd_thread_detach(t, m, data)
 #define pthread_attr_destroy(attr) *attr=0
-#define pthread_join(t, attr) (attr); thd_thread_join(&t)
+#define pthread_join(t, attr) thd_thread_join(&t)
 
 #define pthread_mutex_init(mutex, attr) thd_mutex_init(mutex)
 #define pthread_mutex_lock(mutex) thd_mutex_lock(mutex)
