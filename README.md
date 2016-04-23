@@ -2,7 +2,7 @@
 A lightweight cross platform library for thread management
 
 #### Platforms
-* linux
+* Linux
 * MacOS
 * Windows  
 

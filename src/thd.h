@@ -8,20 +8,20 @@
 #define THD_H
 
 #ifdef _WIN32
-#define WINDOWS_NATIVE
+#define THD_WINDOWS_NATIVE
 #include <windows.h>
 #else
 #include <pthread.h>
 #endif
 
 #ifdef THD_LIB_EXPORT
-#ifdef WINDOWS_NATIVE
+#ifdef THD_WINDOWS_NATIVE
 #define THD_EXTERN __declspec(dllexport) extern
 #else
 #define THD_EXTERN extern
 #endif
 #elif THD_LIB_IMPORY
-#ifdef WINDOWS_NATIVE
+#ifdef THD_WINDOWS_NATIVE
 #define THD_EXTERN __declspec(dllimport) extern
 #else
 #define THD_EXTERN extern
@@ -39,7 +39,7 @@
 typedef void (*thd_thread_method)(void *);
 
 //! @brief The thread.
-#ifdef WINDOWS_NATIVE
+#ifdef THD_WINDOWS_NATIVE
 typedef HANDLE thd_thread;
 #else
 typedef pthread_t thd_thread;
@@ -59,7 +59,7 @@ THD_EXTERN void thd_thread_join(thd_thread* thread);
 
 
 //! @brief The mutex.
-#ifdef WINDOWS_NATIVE
+#ifdef THD_WINDOWS_NATIVE
 typedef CRITICAL_SECTION thd_mutex;
 #else
 typedef pthread_mutex_t thd_mutex;
@@ -83,7 +83,7 @@ THD_EXTERN void thd_mutex_destroy(thd_mutex* mutex);
 
 
 //! @brief The condition.
-#ifdef WINDOWS_NATIVE
+#ifdef THD_WINDOWS_NATIVE
 typedef CONDITION_VARIABLE thd_condition;
 #else
 typedef pthread_cond_t thd_condition;
@@ -102,6 +102,36 @@ THD_EXTERN void thd_condition_wait(thd_condition* cond, thd_mutex* mutex);
 //! @brief Destroy a condition.
 THD_EXTERN void thd_condition_destroy(thd_condition* cond);
 
+
+#ifdef THD_WINDOWS_PTHREAD_SUPPORT
+
+
+#define pthread_mutex_t thd_mutex;
+#define pthread_cond_t thd_condition;
+#define pthread_t thd_thread;
+#define pthread_attr_t int;
+#define PTHREAD_CREATE_JOINABLE 0
+#define PTHREAD_CREATE_DETACHED 0
+
+#define pthread_attr_init(attr) (*attr)
+#define pthread_attr_setdetachstate(attr, flag) (*attr)
+#define pthread_create(t, attr, m, data) (*attr); thd_thread_detach(t, m, data)
+#define pthread_attr_destroy(attr) (*attr)
+#define pthread_join(t, attr) (attr); thd_thread_join(t)
+
+#define pthread_mutex_init(mutex, attr) (attr); thd_mutex_init(mutex)
+#define pthread_mutex_lock(mutex) thd_mutex_lock(mutex)
+#define pthread_mutex_unlock(mutex) thd_mutex_unlock(mutex)
+#define pthread_mutex_destroy(mutex) thd_mutex_destroy(mutex)
+
+
+#define pthread_cond_init(cond, attr) (attr); thd_condition_init(cond)
+#define pthread_cond_signal(cond) thd_condition_signal(mutex)
+#define pthread_cond_wait(cond) thd_condition_wait(mutex)
+#define pthread_cond_destroy(cond) thd_condition_destroy(cond)
+
+
+#endif
 
 
 
