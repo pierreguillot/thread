@@ -2,7 +2,8 @@
 A lightweight cross platform library for thread management
 
 [![Build Status](https://travis-ci.org/pierreguillot/thread.svg?branch=master)](https://travis-ci.org/pierreguillot/thread)  
-[![Build Status](https://ci.appveyor.com/api/projects/status/github/pierreguillot/thread?branch=master&svg=true)](https://ci.appveyor.com/project/pierreguillot/thread/branch/master)  
+[![Build Status](https://ci.appveyor.com/api/projects/status/github/pierreguillot/thread?branch=master&svg=true)](https://ci.appveyor.com/project/pierreguillot/thread/branch/master)   
+[![Coverage Status](https://coveralls.io/repos/github/pierreguillot/thread/badge.svg?branch=master)](https://coveralls.io/github/pierreguillot/thread?branch=master)
 
 #### Platforms
 * Linux
