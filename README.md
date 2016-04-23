@@ -6,16 +6,37 @@ A lightweight cross platform library for thread management
 * MacOS
 * Windows  
 
-#### Install
-```bash
+#### Installation
+```
 mkdir build
 cd build
 cmake ..  
 cmake --build .
-threadtest
+test (optional)
 ```
 
-#### Use
+#### Documentation
+* Thread   
+ * Detaches a thread:  
+void thd_thread_detach(thd_thread* thread, thd_thread_method method, void* data);
+
+ * Joins a thread:  
+void thd_thread_join(thd_thread* thread);
+
+* Mutex
+ * Initializes a mutex:   
+void thd_mutex_init(thd_mutex* mutex);
+
+ * Locks a mutex:  
+void thd_mutex_lock(thd_mutex* mutex);
+
+ * Unlocks a mutex:  
+void thd_mutex_unlock(thd_mutex* mutex);
+
+ * Deletes a mutex:  
+void thd_mutex_delete(thd_mutex* mutex);
+
+#### Example
 ```c
 #include <string.h>
 #include <stdio.h>
