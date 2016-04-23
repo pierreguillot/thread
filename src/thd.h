@@ -31,7 +31,7 @@
 #endif
 
 //! @brief The thread method.
-typedef void (*thd_thread_method)();
+typedef void (*thd_thread_method)(void *);
 
 //! @brief The thread.
 #ifdef WINDOWS_NATIVE

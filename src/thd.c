@@ -19,16 +19,6 @@ typedef struct _internal_parameters
     void*             i_data;
 }t_internal_parameters;
 
-typedef void (*thd_thread_method_ptr)(void *);
-
-static DWORD WINAPI internal_method_null(LPVOID arg)
-{
-    t_internal_parameters *params = (t_internal_parameters *)arg;
-    (params->i_method)();
-    free(params);
-    return 0;
-}
-
 static DWORD WINAPI internal_method_ptr(LPVOID arg)
 {
     t_internal_parameters *params = (t_internal_parameters *)arg;
@@ -42,14 +32,7 @@ void thd_thread_launch(thd_thread* thread, thd_thread_method method, void* data)
     t_internal_parameters* params = (t_internal_parameters *)malloc(sizeof(t_internal_parameters));
     params->i_method = method;
     params->i_data   = data;
-    if(data)
-    {
-        *thread = CreateThread(NULL, 0, internal_method_ptr, params, 0, NULL);
-    }
-    else
-    {
-        *thread = CreateThread(NULL, 0, internal_method_null, params, 0, NULL);
-    }
+    *thread = CreateThread(NULL, 0, internal_method_ptr, params, 0, NULL);
 }
 
 void thd_thread_join(thd_thread* thread)
