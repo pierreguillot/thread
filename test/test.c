@@ -31,8 +31,6 @@ typedef struct _data
     thd_condition   condwrite;      //!< The condition.
     thd_condition   condread;       //!< The condition.
     char            occupied;       //!< The state.
-    unsigned char   nextin;
-    unsigned char   nextout;
     char            buffer[BUFSIZE];//!< The buffer.
 }t_data;
 

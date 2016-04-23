@@ -14,7 +14,6 @@
 #define BUFSIZE 128
 #define NCONSUMER 5
 #define NLOOPS 10
-#define VERBOSE_TEST 1
 
 static void verbose_printf(char const* buf)
 {
@@ -32,8 +31,6 @@ typedef struct _data
     pthread_cond_t  condwrite;      //!< The condition.
     pthread_cond_t  condread;       //!< The condition.
     char            occupied;       //!< The state.
-    unsigned char   nextin;
-    unsigned char   nextout;
     char            buffer[BUFSIZE];//!< The buffer.
 }t_data;
 
@@ -109,7 +106,7 @@ static void create_thread(pthread_t* th, pthread_method func, t_data* data)
     pthread_attr_t attributes;
     pthread_attr_init(&attributes);
     pthread_attr_setdetachstate(&attributes, PTHREAD_CREATE_JOINABLE);
-    pthread_create(th, &attributes, (void *)func, data);
+    pthread_create(th, &attributes, (void *)func, (void *)data);
     pthread_attr_destroy(&attributes);
 }
 
@@ -141,7 +138,7 @@ int main(int argc, char** argv)
         //! Detaches all the threads
         for(i = 0; i < NCONSUMER; i++)
         {
-            create_thread(consumers, (void *)func_consumer, &data);
+            create_thread(consumers+i, (void *)func_consumer, &data);
         }
         create_thread(&producer, (void *)func_producer, &data);
         
