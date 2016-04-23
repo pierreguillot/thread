@@ -1,60 +1,10 @@
-### THD
-A lightweight cross platform library for thread management
+/*
+// Copyright (c) 2015 Pierre Guillot.
+// For information on usage and redistribution, and for a DISCLAIMER OF ALL
+// WARRANTIES, see the file, "LICENSE.txt," in this distribution.
+*/
 
-[![Build Status](https://travis-ci.org/pierreguillot/thread.svg?branch=master)](https://travis-ci.org/pierreguillot/thread)  
-[![Build Status](https://ci.appveyor.com/api/projects/status/github/pierreguillot/thread?branch=master&svg=true)](https://ci.appveyor.com/project/pierreguillot/thread/branch/master)  
-
-#### Platforms
-* Linux
-* MacOS
-* Windows  
-
-#### Installation
-```
-mkdir build
-cd build
-cmake ..  
-cmake --build .
-test (optional)
-```
-
-#### Documentation
-* Thread   
- * Detaches a thread:  
-void thd_thread_detach(thd_thread* thread, thd_thread_method method, void* data);
-
- * Joins a thread:  
-void thd_thread_join(thd_thread* thread);
-
-* Mutex
- * Initializes a mutex:   
-void thd_mutex_init(thd_mutex* mutex);
-
- * Locks a mutex:  
-void thd_mutex_lock(thd_mutex* mutex);
-
- * Unlocks a mutex:  
-void thd_mutex_unlock(thd_mutex* mutex);
-
- * Destroy a mutex:  
-void thd_mutex_destroy(thd_mutex* mutex);
-
-* Condition
- * Initializes a condition:  
-void thd_condition_init(thd_condition* cond);
-
- * Restarts one of the threads that are waiting on the condition:  
-void thd_condition_signal(thd_condition* cond);
-
- * Unlocks the mutex and waits for the condition to be signalled:  
-void thd_condition_wait(thd_condition* cond, thd_mutex* mutex);
-
- * Destroy a condition:
-void thd_condition_destroy(thd_condition* cond);
-
-#### Example
-```c
-#include "../src/thd.h"
+#include <pthread.h>
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -77,9 +27,9 @@ static void verbose_printf(char const* buf)
 //! The structure owns a mutex to synchronize the access to the data.
 typedef struct _data
 {
-    thd_mutex       mutex;          //!< The mutex.
-    thd_condition   condwrite;      //!< The condition.
-    thd_condition   condread;       //!< The condition.
+    pthread_mutex_t mutex;          //!< The mutex.
+    pthread_cond_t  condwrite;      //!< The condition.
+    pthread_cond_t  condread;       //!< The condition.
     char            occupied;       //!< The state.
     unsigned char   nextin;
     unsigned char   nextout;
@@ -93,12 +43,12 @@ static void func_producer(t_data* t)
 {
     size_t i;
     //! Locks the access to the data
-    thd_mutex_lock(&t->mutex);
+    pthread_mutex_lock(&t->mutex);
     //! Wait the condition to write the data
     verbose_printf("func_producer wait...\n");
     while(t->occupied)
     {
-        thd_condition_wait(&t->condwrite, &t->mutex);
+        pthread_cond_wait(&t->condwrite, &t->mutex);
     }
     assert(!t->occupied);
     verbose_printf("func_producer run...\n");
@@ -110,9 +60,9 @@ static void func_producer(t_data* t)
     t->occupied = NCONSUMER;
     //! Signal that the buffer can be read
     verbose_printf("func_producer signal\n");
-    thd_condition_signal(&t->condread);
+    pthread_cond_signal(&t->condread);
     //! Unlocks the access to the data
-    thd_mutex_unlock(&t->mutex);
+    pthread_mutex_unlock(&t->mutex);
 }
 
 //! @brief The function that reads from the buffer.
@@ -122,12 +72,12 @@ static void func_consumer(t_data* t)
 {
     size_t i;
     //! Locks the access to the data
-    thd_mutex_lock(&t->mutex);
+    pthread_mutex_lock(&t->mutex);
     //! Wait the condition to write the data
     verbose_printf("func_consumer wait...\n");
     while(!t->occupied)
     {
-        thd_condition_wait(&t->condread, &t->mutex);
+        pthread_cond_wait(&t->condread, &t->mutex);
     }
     assert(t->occupied);
     verbose_printf("func_consumer run...\n");
@@ -141,15 +91,15 @@ static void func_consumer(t_data* t)
     if(t->occupied)
     {
         //! Signal that the buffer can be read by another thread
-        thd_condition_signal(&t->condread);
+        pthread_cond_signal(&t->condread);
     }
     else
     {
         //! Signal that the buffer can be write
-        thd_condition_signal(&t->condwrite);
+        pthread_cond_signal(&t->condwrite);
     }
     //! Unlocks the access to the data
-    thd_mutex_unlock(&t->mutex);
+    pthread_mutex_unlock(&t->mutex);
 }
 
 int main(int argc, char** argv)
@@ -158,12 +108,13 @@ int main(int argc, char** argv)
     //! The data structure that will be accessed by the threads
     t_data data;
     //! The set of consumer threads
-    thd_thread  producer;
-    thd_thread  consumers[NCONSUMER];
+    pthread_t  producer;
+    pthread_t  consumers[NCONSUMER];
+    pthread_attr_t attributes;
     //! Note that the data is free to be filled
     data.occupied = 0;
     printf("test thread... ");
-
+    
     for(j = 0; j < NLOOPS; j++)
     {
         //! Fill the data's buffer with 0
@@ -171,35 +122,42 @@ int main(int argc, char** argv)
         {
             data.buffer[i] = 0;
         }
-
+        
         //! Initializes the mutex of the data structure
-        thd_mutex_init(&data.mutex);
+        pthread_mutex_init(&data.mutex, NULL);
         //! Initializes the conditions of the data structure
-        thd_condition_init(&data.condread);
-        thd_condition_init(&data.condwrite);
-
+        pthread_cond_init(&data.condread, NULL);
+        pthread_cond_init(&data.condwrite, NULL);
+        
         //! Detaches all the threads
         for(i = 0; i < NCONSUMER; i++)
         {
-            thd_thread_detach(consumers+i, (thd_thread_method)func_consumer, &data);
+            pthread_attr_init(&attributes);
+            pthread_attr_setdetachstate(&attributes, PTHREAD_CREATE_JOINABLE);
+            pthread_create(consumers, &attributes, (void *)func_consumer, &data);
+            pthread_attr_destroy(&attributes);
         }
-        thd_thread_detach(&producer, (thd_thread_method)func_producer, &data);
-
+        pthread_attr_init(&attributes);
+        pthread_attr_setdetachstate(&attributes, PTHREAD_CREATE_JOINABLE);
+        pthread_create(&producer, &attributes, (void *)func_producer, &data);
+        pthread_attr_destroy(&attributes);
+        
         //! Joins all the threads
-        thd_thread_join(&producer);
+        pthread_join(producer, NULL);
         for(i = 0; i < NCONSUMER; i++)
         {
-            thd_thread_join(consumers+i);
+            pthread_join(consumers[i], NULL);
         }        
     }
-
+    
     //! Destroy the conditions of the data structure
-    thd_condition_destroy(&data.condread);
-    thd_condition_destroy(&data.condwrite);
+    pthread_cond_destroy(&data.condread);
+    pthread_cond_destroy(&data.condwrite);
     //! Destroy the mutex of the data structure
-    thd_mutex_destroy(&data.mutex);
-
+    pthread_mutex_destroy(&data.mutex);
+    
     printf("ok\n");
     return 0;
 }
-```
+
+

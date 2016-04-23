@@ -12,8 +12,13 @@ set(TESTSOURCES
 ${PROJECT_SOURCE_DIR}/test/test.c
 )
 
+set(PTESTSOURCES
+${PROJECT_SOURCE_DIR}/test/ptest.c
+)
+
 source_group(thread FILES ${THREADSOURCES})
 source_group(test FILES ${TESTSOURCES})
+source_group(ptest FILES ${PTESTSOURCES})
 include_directories(${PROJECT_SOURCE_DIR}/test)
 include_directories(${PROJECT_SOURCE_DIR}/src)
 
@@ -27,9 +32,17 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fprofile-arcs -ftest-coverage")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fprofile-arcs -ftest-coverage")
 endif()
 
+if(${WIN32})
+include_directories(${PROJECT_SOURCE_DIR}/pthreadwin)
+endif()
+
 add_executable(threadtest ${TESTSOURCES} ${THREADSOURCES})
 target_link_libraries(threadtest ${CMAKE_THREAD_LIBS_INIT})
 set_target_properties(threadtest PROPERTIES OUTPUT_NAME test)
+
+add_executable(pthreadtest ${PTESTSOURCES} ${THREADSOURCES})
+target_link_libraries(pthreadtest ${CMAKE_THREAD_LIBS_INIT})
+set_target_properties(pthreadtest PROPERTIES OUTPUT_NAME ptest)
 
 add_library(threadshared SHARED ${THREADSOURCES})
 target_link_libraries(threadshared ${CMAKE_THREAD_LIBS_INIT})
