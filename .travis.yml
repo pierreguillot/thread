@@ -22,6 +22,22 @@ matrix:
 
     - os: linux
       compiler: gcc
+      before_script:
+        - pip install --user git+git://github.com/eddyxu/cpp-coveralls.git
+      script:
+          - mkdir build && cd build
+          - cmake -DCOVERALLS=1 -DCMAKE_BUILD_TYPE=Debug ..
+          - cmake --build .
+          - cd ../
+          - ./build/xpdtest pwd
+
+      after_success:
+        - coveralls -e build/CMakeFiles/feature_tests.cxx -e build/CMakeFiles/feature_tests.c -e build/CMakeFiles/CompilerIdCXX/CMakeCXXCompilerId.cpp -e build/CMakeFiles/CompilerIdCXX/CMakeCXXCompilerId.c -e build/CMakeFiles/3.2.2/CompilerIdCXX/CMakeCXXCompilerId.cpp -e build/CMakeFiles/3.2.2/CompilerIdC/CMakeCCompilerId.c -e test --gcov-options '\-lp'
+      env:
+        - Coveralls and Documentations
+
+    - os: linux
+      compiler: gcc
       script:
         - mkdir build && cd build
         - cmake ..
