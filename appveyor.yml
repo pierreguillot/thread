@@ -17,6 +17,7 @@ build_script:
 test_script:
     - cd Debug
     - test.exe
+    - ptest.exe
 
 notifications:
 

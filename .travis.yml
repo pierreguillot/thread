@@ -33,9 +33,10 @@ matrix:
           - cmake --build .
           - cd ../
           - ./build/test
+          - ./build/ptest
 
       after_success:
-        - coveralls build/CMakeFiles/CompilerIdCXX/CMakeCXXCompilerId.cpp -e build/CMakeFiles/CompilerIdCXX/CMakeCXXCompilerId.c -e build/CMakeFiles/3.2.2/CompilerIdCXX/CMakeCXXCompilerId.cpp -e build/CMakeFiles/3.2.2/CompilerIdC/CMakeCCompilerId.c -e test --gcov-options '\-lp'
+        - coveralls --gcov-options '\-lp'
       env:
         - Coveralls
 
@@ -47,6 +48,7 @@ matrix:
         - cmake --build .
         - cd ../
         - ./build/test
+        - ./build/ptest
 
     - os: linux
       compiler: clang
@@ -56,6 +58,7 @@ matrix:
         - cmake --build .
         - cd ../
         - ./build/test
+        - ./build/ptest
 
     - os: osx
       compiler: gcc
@@ -65,6 +68,7 @@ matrix:
         - cmake --build .
         - cd ../
         - ./build/test
+        - ./build/ptest
 
     - os: osx
       compiler: clang
@@ -74,3 +78,4 @@ matrix:
         - cmake --build .
         - cd ../
         - ./build/test
+        - ./build/ptest
