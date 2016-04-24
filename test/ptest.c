@@ -100,16 +100,6 @@ static void func_consumer(t_data* t)
     pthread_mutex_unlock(&t->mutex);
 }
 
-typedef void (*pthread_method)(void *);
-static void create_thread(pthread_t* th, pthread_method func, t_data* data)
-{
-    pthread_attr_t attributes;
-    pthread_attr_init(&attributes);
-    pthread_attr_setdetachstate(&attributes, PTHREAD_CREATE_JOINABLE);
-    pthread_create(th, &attributes, (void *)func, (void *)data);
-    pthread_attr_destroy(&attributes);
-}
-
 int main(int argc, char** argv)
 {
     size_t i, j;
@@ -138,9 +128,9 @@ int main(int argc, char** argv)
         //! Detaches all the threads
         for(i = 0; i < NCONSUMER; i++)
         {
-            create_thread(consumers+i, (void *)func_consumer, &data);
+            pthread_create(consumers+i, 0, (void *)func_consumer, &data);
         }
-        create_thread(&producer, (void *)func_producer, &data);
+        pthread_create(consumers+i, 0, (void *)func_producer, &data);
         
         //! Joins all the threads
         pthread_join(producer, NULL);

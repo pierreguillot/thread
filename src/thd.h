@@ -47,10 +47,10 @@ typedef pthread_t thd_thread;
 
 
 //! @brief Detaches a thread.
-THD_EXTERN void thd_thread_detach(thd_thread* thread, thd_thread_method method, void* data);
+THD_EXTERN int thd_thread_detach(thd_thread* thread, thd_thread_method method, void* data);
 
 //! @brief Joins a thread.
-THD_EXTERN void thd_thread_join(thd_thread* thread);
+THD_EXTERN int thd_thread_join(thd_thread* thread);
 
 
 
@@ -67,16 +67,19 @@ typedef pthread_mutex_t thd_mutex;
 
 
 //! @brief Initializes a mutex.
-THD_EXTERN void thd_mutex_init(thd_mutex* mutex);
+THD_EXTERN int thd_mutex_init(thd_mutex* mutex);
 
 //! @brief Locks a mutex.
-THD_EXTERN void thd_mutex_lock(thd_mutex* mutex);
+THD_EXTERN int thd_mutex_lock(thd_mutex* mutex);
+
+//! @brief Tries to locks a mutex.
+THD_EXTERN int thd_mutex_trylock(thd_mutex* mutex);
 
 //! @brief Unlocks a mutex.
-THD_EXTERN void thd_mutex_unlock(thd_mutex* mutex);
+THD_EXTERN int thd_mutex_unlock(thd_mutex* mutex);
 
 //! @brief Destroy a mutex.
-THD_EXTERN void thd_mutex_destroy(thd_mutex* mutex);
+THD_EXTERN int thd_mutex_destroy(thd_mutex* mutex);
 
 
 
@@ -91,16 +94,16 @@ typedef pthread_cond_t thd_condition;
 
 
 //! @brief Initializes a condition.
-THD_EXTERN void thd_condition_init(thd_condition* cond);
+THD_EXTERN int thd_condition_init(thd_condition* cond);
 
 //! @brief Restarts one of the threads that are waiting on the condition.
-THD_EXTERN void thd_condition_signal(thd_condition* cond);
+THD_EXTERN int thd_condition_signal(thd_condition* cond);
 
 //! @brief Unlocks the mutex and waits for the condition to be signalled.
-THD_EXTERN void thd_condition_wait(thd_condition* cond, thd_mutex* mutex);
+THD_EXTERN int thd_condition_wait(thd_condition* cond, thd_mutex* mutex);
 
 //! @brief Destroy a condition.
-THD_EXTERN void thd_condition_destroy(thd_condition* cond);
+THD_EXTERN int thd_condition_destroy(thd_condition* cond);
 
 
 
