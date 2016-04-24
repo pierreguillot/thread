@@ -22,36 +22,39 @@ test (optional)
 #### Documentation
 * Thread   
  * Detaches a thread:  
-`void thd_thread_detach(thd_thread* thread, thd_thread_method method, void* data)``
+`int thd_thread_detach(thd_thread* thread, thd_thread_method method, void* data)``
 
  * Joins a thread:  
-`void thd_thread_join(thd_thread* thread);`
+`int thd_thread_join(thd_thread* thread);`
 
 * Mutex
  * Initializes a mutex:   
-`void thd_mutex_init(thd_mutex* mutex);`
+`int thd_mutex_init(thd_mutex* mutex);`
 
  * Locks a mutex:  
-`void thd_mutex_lock(thd_mutex* mutex);`
+`int thd_mutex_lock(thd_mutex* mutex);`
+
+* Tries to lock a mutex:  
+`int thd_mutex_trylock(thd_mutex* mutex);`
 
  * Unlocks a mutex:  
-`void thd_mutex_unlock(thd_mutex* mutex);`
+`int thd_mutex_unlock(thd_mutex* mutex);`
 
  * Destroy a mutex:  
-`void thd_mutex_destroy(thd_mutex* mutex);`
+`int thd_mutex_destroy(thd_mutex* mutex);`
 
 * Condition
  * Initializes a condition:  
-`void thd_condition_init(thd_condition* cond);`
+`int thd_condition_init(thd_condition* cond);`
 
  * Restarts one of the threads that are waiting on the condition:  
-`void thd_condition_signal(thd_condition* cond);`
+`int thd_condition_signal(thd_condition* cond);`
 
  * Unlocks the mutex and waits for the condition to be signalled:  
-`void thd_condition_wait(thd_condition* cond, thd_mutex* mutex);`
+`int thd_condition_wait(thd_condition* cond, thd_mutex* mutex);`
 
  * Destroy a condition:  
-`void thd_condition_destroy(thd_condition* cond);`
+`int thd_condition_destroy(thd_condition* cond);`
 
 #### Example
 * [thd interface](https://github.com/pierreguillot/thread/blob/master/test/test.c)
