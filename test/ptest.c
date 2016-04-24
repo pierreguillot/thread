@@ -130,7 +130,7 @@ int main(int argc, char** argv)
         {
             pthread_create(consumers+i, 0, (void *)func_consumer, &data);
         }
-        pthread_create(consumers+i, 0, (void *)func_producer, &data);
+        pthread_create(&producer, 0, (void *)func_producer, &data);
         
         //! Joins all the threads
         pthread_join(producer, NULL);
