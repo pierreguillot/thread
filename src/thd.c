@@ -35,7 +35,7 @@ void thd_thread_detach(thd_thread* thread, thd_thread_method method, void* data)
     *thread = CreateThread(NULL, 0, internal_method_ptr, params, 0, NULL);
 }
 
-void thd_thread_join(thd_thread* thread)
+int thd_thread_join(thd_thread* thread)
 {
     WaitForSingleObject(*thread, INFINITE);
     CloseHandle(*thread);
