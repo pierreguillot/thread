@@ -51,7 +51,11 @@ set_target_properties(threadshared PROPERTIES LIBRARY_OUTPUT_DIRECTORY ${PROJECT
 set_target_properties(threadshared PROPERTIES ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/lib)
 
 add_library(threadstatic STATIC ${THREADSOURCES})
-target_link_libraries(threadstatic ${CMAKE_THREAD_LIBS_INIT})
+if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_COMPILER_IS_GNUCC)
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -pedantic")
+else()
+	target_link_libraries(threadstatic ${CMAKE_THREAD_LIBS_INIT})
+endif()
 if(${WIN32})
 	set_target_properties(threadstatic PROPERTIES OUTPUT_NAME thdlib)
 else()
